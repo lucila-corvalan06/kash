@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kash - Sin conexión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #13131F;
+            color: #F5F5FA;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #8B6FFF;
+        }
+
+        p {
+            font-size: 15px;
+            color: #9CA3AF;
+            line-height: 1.6;
+            max-width: 280px;
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            background-color: #7C5CFC;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sin conexión</h1>
+    <p>No hay internet por ahora. Cuando vuelvas a conectarte podés seguir usando Kash normalmente.</p>
+    <button class="btn" onclick="location.reload()">Reintentar</button>
+</body>
+</html>

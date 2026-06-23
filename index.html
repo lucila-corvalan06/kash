@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kash</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="icon" type="image/png" href="icons/favicon.png">
+</head>
+<body>
+    <div class="offline-banner" id="offlineBanner">
+        <i class="ri-wifi-off-line"></i> Estás sin conexión
+    </div>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav class="navbar">
+        <button class="nav-btn active" data-section="home">
+            <i class="ri-home-5-line"></i>
+            <p>INICIO</p>
+        </button>
+        <button class="nav-btn" data-section="gastos">
+            <i class="ri-money-dollar-circle-line"></i>
+            <p>GASTOS</p>
+        </button>
+        <button class="nav-btn" data-section="ahorros">
+            <i class="ri-bank-line"></i>
+            <p>AHORROS</p>
+        </button>
+        <button class="nav-btn" data-section="ajustes">
+            <i class="ri-settings-3-line"></i>
+            <p>AJUSTES</p>
+        </button>
+    </nav>
+
+    <main class="contenido">
+        <!-- SECCIÓN HOME -->
+        <section id="home" class="seccion activa">
+            <div class="header">
+                <div>
+                    <p class="saludo">¡Hola,</p>
+                    <h1 class="nombre-usuario">Usuario!</h1>
+                </div>
+                <button class="btn-tema" id="btn-tema">
+                    <i class="ri-moon-line"></i>
+                </button>
+            </div>
+            <div class="card saldo-card">
+                <p class="label">Saldo disponible</p>
+                <h2 class="saldo-monto">$0</h2>
+                <p class="saldo-sub">de $0 de sueldo</p>
+            </div>
+            <div class="card accesos-card">
+                <div class="accesos-grid">
+                    <button class="acceso-item" id="btnAbrirIngreso">
+                        <div class="acceso-icono acceso-ingreso">
+                            <i class="ri-arrow-down-circle-line"></i>
+                        </div>
+                        <span>Ingreso</span>
+                    </button>
+
+                    <button class="acceso-item" id="btnAbrirGasto">
+                        <div class="acceso-icono acceso-egreso">
+                            <i class="ri-arrow-up-circle-line"></i>
+                        </div>
+                        <span>Gasto</span>
+                    </button>
+                    
+
+                    <button class="acceso-item" id="btnVerResumen">
+                        <div class="acceso-icono acceso-resumen">
+                            <i class="ri-bar-chart-2-line"></i>
+                        </div>
+                        <span>Resumen</span>
+                    </button>
+                </div>
+
+                <div class="form-rapido" id="formIngreso">
+                    <input type="number" id="inputMontoIngreso" placeholder="Monto $" class="input">
+                    <input type="text" id="inputDescIngreso" placeholder="Descripción (ej: sueldo, freelance)" class="input">
+                    <button class="btn-principal" id="btnGuardarIngreso">Guardar ingreso</button>
+                </div>
+
+                <div class="form-rapido" id="formGastoRapido">
+                    <input type="number" id="inputMontoGastoRapido" placeholder="Monto $" class="input">
+                    <input type="text" id="inputDescGastoRapido" placeholder="Descripción" class="input">
+                    <select id="selectCategoriaRapido" class="input">
+                        <option value="">Categoría</option>
+                    </select>
+                    <button class="btn-principal" id="btnGuardarGastoRapido">Guardar gasto</button>
+                </div>
+            </div>
+            <div class="transacciones">
+                <div class="transacciones-header">
+                    <h3>Últimas transacciones</h3>
+                </div>
+                <ul class="lista-transacciones" id="listaHome">
+                    <li class="empty-msg">No hay transacciones aún</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN GASTOS -->
+        <section id="gastos" class="seccion">
+            <div class="header">
+              <h2>Mis Gastos</h2>
+            </div>
+
+            <div class="periodo-selector">
+                <button class="periodo-btn active" data-periodo="dia">Día</button>
+                <button class="periodo-btn" data-periodo="semana">Semana</button>
+                <button class="periodo-btn" data-periodo="mes">Mes</button>
+            </div>
+
+            <div class="card grafico-card">
+                <p class="grafico-monto" id="graficoMontoTotal">$0</p>
+                <p class="grafico-sub" id="graficoFechaLabel">Hoy</p>
+                <canvas id="graficoDona"></canvas>
+            </div>
+
+            <div class="card">
+                <h3>Todos los gastos</h3>
+                <ul class="lista-transacciones" id="listaGastos">
+                    <li class="empty-msg">No hay gastos aún</li>
+                </ul>
+            </div>
+
+            <button class="btn-flotante" id="btnAbrirModalGasto">
+                <i class="ri-add-line"></i>
+            </button>
+
+            <div class="modal-overlay" id="modalGasto">
+                <div class="modal-contenido">
+                    <div class="modal-header">
+                        <h3>Agregar gasto</h3>
+                        <button class="modal-cerrar" id="btnCerrarModal">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                    <input type="number" id="inputMonto" placeholder="Monto $" class="input">
+                    <input type="text" id="inputDescripcion" placeholder="Descripción" class="input">
+                    <select id="selectCategoria" class="input">
+                        <option value="">Seleccioná una categoría</option>
+                    </select>
+                    <input type="date" id="inputFecha" class="input">
+                    <button class="btn-principal" id="btnAgregarGasto">
+                        Guardar gasto
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN AHORROS -->
+        <section id="ahorros" class="seccion">
+            <div class="header">
+                <h2>Mis Ahorros</h2>
+            </div>
+
+            <div class="card resumen-ahorros">
+                <p class="label">Total ahorrado</p>
+                <h2 class="ahorro-total" id="ahorroTotal">$0</h2>
+            </div>
+
+            <div class="metas-lista" id="listaMetas">
+                <p class="empty-msg">No tenés metas de ahorro todavía</p>
+            </div>
+
+            <button class="btn-flotante" id="btnAbrirModalMeta">
+                <i class="ri-add-line"></i>
+            </button>
+
+            <!-- MODAL para crear meta -->
+            <div class="modal-overlay" id="modalMeta">
+                <div class="modal-contenido">
+                    <div class="modal-header">
+                        <h3>Nueva meta de ahorro</h3>
+                        <button class="modal-cerrar" id="btnCerrarModalMeta">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                    <input type="text" id="inputNombreMeta" placeholder="Ej: Viaje a Bariloche" class="input">
+                    <input type="number" id="inputMontoMeta" placeholder="Monto objetivo $" class="input">
+                    <input type="date" id="inputFechaMeta" class="input">
+                    <button class="btn-principal" id="btnGuardarMeta">
+                        Crear meta
+                    </button>
+                </div>
+            </div>
+            <div class="modal-overlay" id="modalAgregarAhorro">
+                <div class="modal-contenido">
+                    <div class="modal-header">
+                        <h3>Agregar ahorro</h3>
+                        <button class="modal-cerrar" id="btnCerrarModalAhorro">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                    <input type="number" id="inputMontoAhorro" placeholder="Monto $" class="input">
+                    <button class="btn-principal" id="btnConfirmarAhorro">
+                        Agregar
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN AJUSTES -->
+        <section id="ajustes" class="seccion">
+            <div class="header">
+                <h2>Ajustes</h2>
+            </div>
+
+            <div class="card">
+                <h3>Mi perfil</h3>
+                <label class="label-input">Nombre</label>
+                <input type="text" id="inputNombreUsuario" placeholder="Tu nombre" class="input">
+
+                <label class="label-input">Ingreso mensual estimado</label>
+                <input type="number" id="inputSueldoEstimado" placeholder="$" class="input">
+
+                <button class="btn-principal" id="btnGuardarPerfil">Guardar</button>
+            </div>
+
+            <div class="card">
+                <h3>Apariencia</h3>
+                <div class="ajuste-fila">
+                    <p>Modo oscuro</p>
+                    <label class="switch">
+                        <input type="checkbox" id="checkTema">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Categorías</h3>
+                <ul class="lista-categorias" id="listaCategorias">
+                    <!-- el JS rellena esto con las categorías -->
+                </ul>
+
+                <div class="agregar-categoria">
+                    <input type="text" id="inputNuevaCategoria" placeholder="Nueva categoría" class="input">
+                    <button class="btn-principal" id="btnAgregarCategoria">
+                        <i class="ri-add-line"></i>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+
+    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator){
+            navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log('Service Worker registrado'))
+            .catch(err => console.log('Error al registrar SW:', err));
+        }
+    </script>
+    
+</body>
+</html>
