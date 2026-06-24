@@ -55,7 +55,7 @@ body {
     background-color: var(--bg);
     color: var(--texto);
     transition: background-color 0.3s ease, color 0.3s ease;
-    padding-bottom: 90px;
+    padding-bottom: 100px;
     min-height: 100vh;
 }
 
@@ -810,4 +810,9 @@ button:focus, .nav-btn:focus {
     line-height: 1.6;
     max-width: 280px;
     margin-bottom: 32px;
+}
+
+
+input, select, textarea {
+    font-size: 16px !important;
 }
